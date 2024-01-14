@@ -1,31 +1,30 @@
+import { useState } from "react";
 import Header from "./components/Header";
+import Table from "./components/Table";
 import UserInput from "./components/UserInput";
 
 function App() {
+    const [userInput, setUserInput] = useState({
+        initialInvestment: 10000,
+        annualInvestment: 1200,
+        expectedReturn: 6,
+        duration: 10,
+    });
+
+    const handleChange = (inputIdentifier, newValue) => {
+        setUserInput((prevUserInput) => {
+            return {
+                ...prevUserInput,
+                [inputIdentifier]: +newValue,
+            };
+        });
+    };
+
     return (
         <>
             <Header />
-            <UserInput />
-            <table id="result">
-                <thead>
-                    <tr>
-                        <th>Year</th>
-                        <th>Investment Value</th>
-                        <th>Interest(Year)</th>
-                        <th>Total Interest</th>
-                        <th>Invested Capital</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>10850</td>
-                        <td>550</td>
-                        <td>550</td>
-                        <td>10300</td>
-                    </tr>
-                </tbody>
-            </table>
+            <UserInput handleChange={handleChange} userInput={userInput} />
+            <Table userInput={userInput} />
         </>
     );
 }
